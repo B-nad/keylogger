@@ -9,7 +9,7 @@ except ImportError:
     from firebase_admin import credentials, firestore
 
 # Učitaj Firebase Admin SDK ključeve (preuzmi JSON iz Firebase Console)
-cred = credentials.Certificate("ovojekeylogger-firebase-adminsdk-fbsvc-d7d6caa752.json")
+cred = credentials.Certificate("jako_safe_nacin_za_distribuiranje_tajni.json")
 firebase_admin.initialize_app(cred)
 
 # Poveži se na Firestore
