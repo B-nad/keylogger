@@ -68,6 +68,6 @@ moguće.</td>
     </tbody>
 </table>
 
-#Projekt je završen
+# Projekt je završen
 
 <u>Ovaj dio je naknadno napisan. Ovdje ću opisati kako keylogger funkcionira.</u>
