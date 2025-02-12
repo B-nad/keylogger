@@ -70,7 +70,7 @@ moguće.</td>
 
 # Projekt je završen
 
-Ovaj dio je naknadno napisan. Ovdje ću opisati kako keylogger funkcionira.
+## Ovaj dio je naknadno napisan. Ovdje ću opisati kako keylogger funkcionira.
 ______________________________________________________________________________________
 
 Keylogger se sastoji od više datoteka. Svaka odrađuje svoj dio posla, npr. _Inicijalizator.pyw_ kreira sve potrebno za 
@@ -80,3 +80,37 @@ ih spremio u tekstualnu datoteku. _sender.pyw_ iz tekstualne datoteke svakih sat
 bih imao pristup logovima sa drugih uređaja. _deleter - runas admin.bat_ je jednostavni batch file koji je pomagao prilikom
 testiranja. On briše sve tragove koje keylogger ostavi, scheduled taskove i skrivene foldere.
 ![defender](https://github.com/user-attachments/assets/cb652a20-df1d-4531-ade6-95901718e7f1 "Windows defender mi je 153 puta blokirao skriptu od izvršavanja")
+______________________________________________________________________________________
+
+## Funkcionalnosti koje nisu dodane
+
+Postoji jedna funkcionalnost koju nisam na kraju dodao, a to je _"PanicDetected"_ klasa koja bi brisala skriveni folder
+ukoliko bi netko ušao u njega. S obzirom da sam stalno ulazio u njega kako bih testirao i debugirao program, odlučio
+sam ne napraviti tu metodu.
+______________________________________________________________________________________
+
+## Način rada
+
+### Unutar _Inicijalizator.pyw_ datoteke napravljena je klasa "Inicijalizacija" koja sadrži nekoliko metoda.
+
+Prva metoda koja se poziva je _moveFile()_. U njoj se zadaje putanja do foldera kojega želimo napraviti. Provjerava
+se postoji li već _"skriveni_folder"_ ili ne i ukoliko <b>ne postoji</b> kreira se pomoću _makedirs_ metode iz _os_ modula.
+Nakon što se kreira, postavljaju mu se atributi "Hidden" i "System". Nakon izrade skrivenog foldera, privremeno se premješta
+_Inicijalizator.pyw_ unutar njega.
+
+Nakon nje poziva se _downloadKeylogger()_ metoda. U njoj se s ovog repozitorija preuzima _Keylogger.pyw_ te se
+sprema u kreirani skriveni folder.
+
+Slijedećih nekoliko metoda također preuzimaju potrebne datoteke iz ovoga repozitorija, tako da je za "distribuciju" keyloggera
+potrebno preuzeti i pokrenuti samo jednu datoteku.
+
+Nakon što su preuzete sve datoteke i postavljene u skriveni folder, poziva se metoda _createTask()_. Ona iskorištava sigurnosni
+propust u "fodhelper.exe" programu zbog kojeg se može zaobići consent UAC prompt. Nažalost credentials UAC prompt nisam uspio
+zaobići, stoga je svejedno potrebno imati administratorske privilegije na računalu, ali ukoliko ih korisnik ima, neće mu se 
+prikazati UAC prompt.![UAC_consent](https://github.com/user-attachments/assets/5cc7f9d6-d6ae-4cb1-bcee-07efd32ce329 "Consent UAC prompt - samo pita želimo li ili ne dopustiti pokretanje")
+![UAC_credentials](https://github.com/user-attachments/assets/41134f63-d653-4613-9cbf-cecfab333e68 "Credentials UAC prompt - zahtjeva unos administratorske lozinke i korisničkog imena")
+
+Na samom kraju poziva se metoda _deleteInitializationFiled()_ koja briše _Inicijalizator.pyw_ i _task kreator.exe_ jer više nisu potrebni.
+
+
+
