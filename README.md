@@ -72,3 +72,9 @@ moguće.</td>
 
 Ovaj dio je naknadno napisan. Ovdje ću opisati kako keylogger funkcionira.
 ______________________________________________________________________________________
+
+Keylogger se sastoji od više datoteka. Svaka odrađuje svoj dio posla, npr. _Inicijalizator.pyw_ kreira sve potrebno za 
+skrivanje i nesmetani rad keyloggera. _task kreator.exe_ koristi se za kreiranje taskova u task scheduleru a da se pri
+tome ne aktivira windows defender. ![defender](https://github.com/user-attachments/assets/cb652a20-df1d-4531-ade6-95901718e7f1)
+
+
