@@ -3,13 +3,31 @@ import sys
 try:
     import firebase_admin
     from firebase_admin import credentials, firestore
+    from cryptography.fernet import Fernet
 except ImportError:
     subprocess.check_call([sys.executable, "-m", "pip", "install", "firebase-admin"])
+    subprocess.check_call([sys.executable, "-m", "pip", "install", "cryptography"])
     import firebase_admin
     from firebase_admin import credentials, firestore
+    from cryptography.fernet import Fernet
 
-# Učitaj Firebase Admin SDK ključeve (preuzmi JSON iz Firebase Console)
-cred = credentials.Certificate("jako_safe_nacin_za_distribuiranje_tajni.json")
+#####################################################################################################
+
+# Enkripcijski kljuc koji sam generiro fernet metodom.
+fernet = Fernet('HRpsf2pVzSwg4wCBs4Nx-uT9nwZepyyjyZ6uhAwfnDM=')
+ 
+# otvaram enkriptirani file da ga mogu procitati
+with open('jako_safe_nacin_za_distribuiranje_tajni.json', 'rb') as enc_file:
+    encrypted = enc_file.read()
+ 
+# dekriptiram podatke iz njega
+decrypted = fernet.decrypt(encrypted)
+
+#Sve ovo kako mi github i firebase nebi plakali da sam distribuiro tajne kljuceve
+
+#####################################################################################################
+
+cred = credentials.Certificate(decrypted.decode())
 firebase_admin.initialize_app(cred)
 
 # Poveži se na Firestore
