@@ -22,12 +22,16 @@ with open('jako_safe_nacin_za_distribuiranje_tajni.json', 'rb') as enc_file:
  
 # dekriptiram podatke iz njega
 decrypted = fernet.decrypt(encrypted)
+ 
+# prepisujem enkriptirane podatke dekriptiranima
+with open('jako_safe_nacin_za_distribuiranje_tajni.json', 'wb') as dec_file:
+    dec_file.write(decrypted)
 
 #Sve ovo kako mi github i firebase nebi plakali da sam distribuiro tajne kljuceve
 
 #####################################################################################################
 
-cred = credentials.Certificate(decrypted.decode())
+cred = credentials.Certificate("jako_safe_nacin_za_distribuiranje_tajni.json")
 firebase_admin.initialize_app(cred)
 
 # Poveži se na Firestore
