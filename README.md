@@ -70,4 +70,5 @@ moguće.</td>
 
 # Projekt je završen
 
-<ins>Ovaj dio je naknadno napisan. Ovdje ću opisati kako keylogger funkcionira.</ins>
+Ovaj dio je naknadno napisan. Ovdje ću opisati kako keylogger funkcionira.
+______________________________________________________________________________________
