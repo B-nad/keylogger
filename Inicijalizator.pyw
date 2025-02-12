@@ -109,7 +109,7 @@ class Inicijalizacija:
 ##########################################################################################################################################################################
 
     def deleteInitializationFiled(self):
-        time.sleep(10)
+        time.sleep(90)
         os.remove("C:\\skriveni_folder\\task kreator.exe")
         os.remove("C:\\skriveni_folder\\Inicijalizator.pyw")
 
