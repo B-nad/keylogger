@@ -75,5 +75,8 @@ ________________________________________________________________________________
 
 Keylogger se sastoji od više datoteka. Svaka odrađuje svoj dio posla, npr. _Inicijalizator.pyw_ kreira sve potrebno za 
 skrivanje i nesmetani rad keyloggera. _task kreator.exe_ koristi se za kreiranje taskova u task scheduleru a da se pri
-tome ne aktivira windows defender.
+tome ne aktivira windows defender. _Keylogger.pyw_ je dokument koji zapravo dohvaća keypress i naslove prozora kako bi
+ih spremio u tekstualnu datoteku. _sender.pyw_ iz tekstualne datoteke svakih sat vremena šalje inpute na firebase kako
+bih imao pristup logovima sa drugih uređaja. _deleter - runas admin.bat_ je jednostavni batch file koji je pomagao prilikom
+testiranja. On briše sve tragove koje keylogger ostavi, scheduled taskove i skrivene foldere.
 ![defender](https://github.com/user-attachments/assets/cb652a20-df1d-4531-ade6-95901718e7f1 "Windows defender mi je 153 puta blokirao skriptu od izvršavanja")
