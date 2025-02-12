@@ -3,6 +3,7 @@ import sys
 try:
     import firebase_admin
     from firebase_admin import credentials, firestore
+    import cryptography
     from cryptography.fernet import Fernet
 except ImportError:
     subprocess.check_call([sys.executable, "-m", "pip", "install", "firebase-admin"])
@@ -10,6 +11,7 @@ except ImportError:
     import firebase_admin
     from firebase_admin import credentials, firestore
     from cryptography.fernet import Fernet
+    import cryptography
 
 #####################################################################################################
 
@@ -21,11 +23,16 @@ with open('jako_safe_nacin_za_distribuiranje_tajni.json', 'rb') as enc_file:
     encrypted = enc_file.read()
  
 # dekriptiram podatke iz njega
-decrypted = fernet.decrypt(encrypted)
- 
-# prepisujem enkriptirane podatke dekriptiranima
-with open('jako_safe_nacin_za_distribuiranje_tajni.json', 'wb') as dec_file:
-    dec_file.write(decrypted)
+try:
+
+    decrypted = fernet.decrypt(encrypted)
+
+    # prepisujem enkriptirane podatke dekriptiranima
+    with open('jako_safe_nacin_za_distribuiranje_tajni.json', 'wb') as dec_file:
+        dec_file.write(decrypted)
+        
+except cryptography.fernet.InvalidToken:
+    pass
 
 #Sve ovo kako mi github i firebase nebi plakali da sam distribuiro tajne kljuceve
 
