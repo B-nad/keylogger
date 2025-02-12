@@ -1,24 +1,22 @@
 import subprocess # za instaliranje pynputa ukoliko nije instaliran
 import sys        # za instaliranje pynputa ukoliko nije instaliran
 import datetime
+import time
 
 try:
     from pynput import keyboard, mouse
     import pyautogui
     import pygetwindow as gw
     import pyperclip
-    import time
 except ImportError:
     subprocess.check_call([sys.executable, "-m", "pip", "install", "pynput"])
     subprocess.check_call([sys.executable, "-m", "pip", "install", "pygetwindow"])
     subprocess.check_call([sys.executable, "-m", "pip", "install", "pyperclip"])
-    subprocess.check_call([sys.executable, "-m", "pip", "install", "time"])
     subprocess.check_call([sys.executable, "-m", "pip", "install", "pyautogui"])
     from pynput import keyboard, mouse
     import pyautogui
     import pygetwindow as gw
     import pyperclip
-    import time
 
 old_title = ""
 
