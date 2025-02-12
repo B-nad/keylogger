@@ -76,8 +76,8 @@ ________________________________________________________________________________
 Keylogger se sastoji od više datoteka. Svaka odrađuje svoj dio posla, npr. _Inicijalizator.pyw_ kreira sve potrebno za 
 skrivanje i nesmetani rad keyloggera. _task kreator.exe_ koristi se za kreiranje taskova u task scheduleru a da se pri
 tome ne aktivira windows defender. (Ne)zanimljiva činjenica je to da mi je prilikom testiranja windows defender 153 puta
-blokirao izvršavanja skripte dok nisam shvatio da ne smijem koristiticmdilipowershell prilikom iskorištavanja exploita.
-![defender](https://github.com/user-attachments/assets/cb652a20-df1d-4531-ade6-95901718e7f1)
+blokirao izvršavanja skripte dok nisam shvatio da ne smijem koristiti cmd ili powershell prilikom iskorištavanja exploita.
+            ![defender](https://github.com/user-attachments/assets/cb652a20-df1d-4531-ade6-95901718e7f1)
 
 
 
